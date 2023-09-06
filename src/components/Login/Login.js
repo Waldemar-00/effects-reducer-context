@@ -1,41 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react" 
 
-import Card from "../UI/Card/Card";
-import styles from "./Login.module.css";
-import Button from "../UI/Button/Button";
+import Card from "../UI/Card/Card" 
+import styles from "./Login.module.css" 
+import Button from "../UI/Button/Button" 
 
 const Login = (props) => {
-  const [inputEmail, setInputEmail] = useState("");
-  const [emailIsValid, setEmailIsValid] = useState();
-  const [inputPassword, setInputPassword] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState();
-  const [formIsValid, setFormIsValid] = useState(false);
+  const [inputEmail, setInputEmail] = useState("") 
+  const [emailIsValid, setEmailIsValid] = useState() 
+  const [inputPassword, setInputPassword] = useState("") 
+  const [passwordIsValid, setPasswordIsValid] = useState() 
+  const [formIsValid, setFormIsValid] = useState(false) 
 
   useEffect(() => {
-    setFormIsValid(
-      inputEmail.includes("@") && inputPassword.trim().length > 7
-    );
+    const timer = setTimeout(() => {
+      setFormIsValid(
+        inputEmail.includes("@") && inputPassword.trim().length > 7
+      ) 
+    }, 1000)
+    return () => {
+      clearTimeout(timer) 
+    }
   }, [inputEmail, inputPassword])
   const emailChangeHandler = (event) => {
-    setInputEmail(event.target.value);
-  };
+    setInputEmail(event.target.value) 
+  } 
 
   const passwordChangeHandler = (event) => {
-    setInputPassword(event.target.value);
-  };
+    setInputPassword(event.target.value) 
+  } 
 
   const validateEmailHandler = () => {
-    setEmailIsValid(inputEmail.includes("@"));
-  };
+    setEmailIsValid(inputEmail.includes("@")) 
+  } 
 
   const validatePasswordHandler = () => {
-    setPasswordIsValid(inputPassword.trim().length > 7);
-  };
+    setPasswordIsValid(inputPassword.trim().length > 7) 
+  } 
 
   const submitHandler = (event) => {
-    event.preventDefault();
-    props.onLogin(inputEmail, inputPassword);
-  };
+    event.preventDefault() 
+    props.onLogin(inputEmail, inputPassword) 
+  } 
 
   return (
     <Card className={styles.login}>
@@ -75,7 +80,7 @@ const Login = (props) => {
         </div>
       </form>
     </Card>
-  );
-};
+  ) 
+} 
 
-export default Login;
+export default Login 
