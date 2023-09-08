@@ -1,45 +1,82 @@
-import React, { useState, useEffect } from "react" 
+import React, { useState, useReducer} from "react" 
 
 import Card from "../UI/Card/Card" 
 import styles from "./Login.module.css" 
 import Button from "../UI/Button/Button" 
 
 const Login = (props) => {
-  const [inputEmail, setInputEmail] = useState("") 
-  const [emailIsValid, setEmailIsValid] = useState() 
-  const [inputPassword, setInputPassword] = useState("") 
-  const [passwordIsValid, setPasswordIsValid] = useState() 
   const [formIsValid, setFormIsValid] = useState(false) 
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setFormIsValid(
-        inputEmail.includes("@") && inputPassword.trim().length > 7
-      ) 
-    }, 1000)
-    return () => {
-      clearTimeout(timer) 
+  const [emailState, dispatchEmail] = useReducer((prevState, action) => {
+    if (action.type === ' USER_INPUT_MAIL') {
+      return {
+        value: action.value,
+        isValid: action.isValid,
+      }
     }
-  }, [inputEmail, inputPassword])
-  const emailChangeHandler = (event) => {
-    setInputEmail(event.target.value) 
+    if (action.type === 'BLUR') {
+      return {
+        value: prevState.value,
+        isValid: prevState.isValid,
+      }
+    }
+    return {
+      value: '',
+      isValid: false,
+    }
+  }, { value: '', isValid: undefined })
+  const [passwordState, dispatchPassword] = useReducer((prevState, action) => {
+    if (action.type === 'USER_INPUT_PASSWORD') {
+      return {
+        value: action.value,
+        isValid: action.isValid,
+      }
+    }
+    if (action.type === 'BLUR') {
+      return {
+        value: prevState.value,
+        isValid: prevState.isValid,
+      }
+    }
+    return {
+      value: '',
+      isValid: false,
+    }
+  }, { value: '', isValid: undefined })
+  
+  const emailChangeHandler = (e) => {
+    dispatchEmail({
+      type: ' USER_INPUT_MAIL',
+      value: e.target.value,
+      isValid: e.target.value.includes('@')
+    }) 
+    setFormIsValid(e.target.value.includes("@") && passwordState.value.trim().length > 7)
   } 
 
-  const passwordChangeHandler = (event) => {
-    setInputPassword(event.target.value) 
+  const passwordChangeHandler = (e) => {
+    dispatchPassword({
+      type: 'USER_INPUT_PASSWORD',
+      value: e.target.value,
+      isValid: e.target.value.trim().length > 7
+    }) 
+    setFormIsValid(emailState.isValid && e.target.value.trim().length > 7)
   } 
 
-  const validateEmailHandler = () => {
-    setEmailIsValid(inputEmail.includes("@")) 
+  const validateEmailHandler = (e) => {
+    dispatchEmail({
+      type: 'BLUR'
+    }) 
   } 
 
   const validatePasswordHandler = () => {
-    setPasswordIsValid(inputPassword.trim().length > 7) 
+    dispatchPassword({
+      type: 'BLUR'
+    }) 
   } 
 
   const submitHandler = (event) => {
     event.preventDefault() 
-    props.onLogin(inputEmail, inputPassword) 
+    props.onLogin(emailState.value, passwordState.value) 
   } 
 
   return (
@@ -47,28 +84,28 @@ const Login = (props) => {
       <form onSubmit={submitHandler}>
         <div
           className={`${styles.control} ${
-            emailIsValid === false ? styles.invalid : ""
+            emailState.isValid === false ? styles.invalid : ""
           }`}
         >
           <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
-            value={inputEmail}
+            value={emailState.value}
             onChange={emailChangeHandler}
             onBlur={validateEmailHandler}
           />
         </div>
         <div
           className={`${styles.control} ${
-            passwordIsValid === false ? styles.invalid : ""
+            passwordState.isValid === false ? styles.invalid : ""
           }`}
         >
           <label htmlFor="password">Пароль</label>
           <input
             type="password"
             id="password"
-            value={inputPassword}
+            value={passwordState.value}
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
           />
