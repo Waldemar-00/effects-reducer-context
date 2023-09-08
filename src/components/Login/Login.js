@@ -1,4 +1,4 @@
-import React, { useState, useReducer} from "react" 
+import React, { useState, useReducer, useEffect} from "react" 
 
 import Card from "../UI/Card/Card" 
 import styles from "./Login.module.css" 
@@ -39,13 +39,16 @@ const Login = (props) => {
     }
   }, { mailValue: '', isMailValid: undefined, passwordValue: '', isPasswordValid: undefined })
 
+  useEffect(() => {
+    setFormIsValid(formState.isMailValid && formState.isPasswordValid)
+  }, [formState.isMailValid, formState.isPasswordValid])
+
   const emailChangeHandler = (e) => {
     dispatchForm({
       type: 'USER_INPUT_MAIL',
       mailValue: e.target.value,
       isMailValid: e.target.value.includes('@')
     }) 
-    setFormIsValid(e.target.value.includes("@") && formState.isPasswordValid)
   } 
 
   const passwordChangeHandler = (e) => {
@@ -54,10 +57,9 @@ const Login = (props) => {
       passwordValue: e.target.value,
       isPasswordValid: e.target.value.trim().length > 7
     }) 
-    setFormIsValid(e.target.value.trim().length > 7 && formState.isMailValid)
   } 
 
-  const validateEmailHandler = (e) => {
+  const validateEmailHandler = () => {
     dispatchForm({
       type: 'BLUR_MAIL'
     }) 
