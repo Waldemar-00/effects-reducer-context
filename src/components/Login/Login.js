@@ -54,7 +54,7 @@ const Login = (props) => {
       passwordValue: e.target.value,
       isPasswordValid: e.target.value.trim().length > 7
     }) 
-    setFormIsValid(formState.isMailValid && e.target.value.trim().length > 7)
+    setFormIsValid(e.target.value.trim().length > 7 && formState.isMailValid)
   } 
 
   const validateEmailHandler = (e) => {
