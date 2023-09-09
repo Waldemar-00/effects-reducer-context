@@ -19,7 +19,7 @@ function Input(
       className={`${styles.control} ${isValid === false ? styles.invalid : ""
         }`}
     >
-      <label htmlFor="email">Email</label>
+      <label htmlFor="email">{name}</label>
       <input
         type={type}
         id={id}

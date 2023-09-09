@@ -14,7 +14,7 @@
   font-weight: bold;
   flex: 1;
   color: #222222;
-  margin-bottom: 1rem;
+  line-height: 1rem;
 }
 
 .control input {
