@@ -38,7 +38,7 @@ const Login = (props) => {
       }
     }
   }, { mailValue: '', isMailValid: undefined, passwordValue: '', isPasswordValid: undefined })
-
+  
   useEffect(() => {
     setFormIsValid(formState.isMailValid && formState.isPasswordValid)
   }, [formState.isMailValid, formState.isPasswordValid])
