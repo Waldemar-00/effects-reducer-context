@@ -1,29 +1,38 @@
-import React from "react";
+import React from "react" 
+import Authenticator from "../../context/Authenticator"
 
-import styles from "./Navigation.module.css";
+import styles from "./Navigation.module.css" 
 
-const Navigation = (props) => {
+const Navigation = ({ onLogout }) => {
   return (
-    <nav className={styles.nav}>
-      <ul>
-        {props.isLoggedIn && (
-          <li>
-            <a href="/">Пользователи</a>
-          </li>
-        )}
-        {props.isLoggedIn && (
-          <li>
-            <a href="/">Админ</a>
-          </li>
-        )}
-        {props.isLoggedIn && (
-          <li>
-            <button onClick={props.onLogout}>Выйти</button>
-          </li>
-        )}
-      </ul>
-    </nav>
-  );
-};
+    <Authenticator.Consumer>
+      {
+        (globalContext) => {  
+          return (
+            <nav className={styles.nav}>
+              <ul>
+                {globalContext.isLoggedIn && (
+                  <li>
+                    <a href="/">Пользователи</a>
+                  </li>
+                )}
+                {globalContext.isLoggedIn && (
+                  <li>
+                    <a href="/">Админ</a>
+                  </li>
+                )}
+                {globalContext.isLoggedIn && (
+                  <li>
+                    <button onClick={globalContext.onLogout}>Выйти</button>
+                  </li>
+                )}
+              </ul>
+            </nav>
+          )
+        }
+      }
+    </Authenticator.Consumer>
+  ) 
+} 
 
-export default Navigation;
+export default Navigation 
