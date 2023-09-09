@@ -2,6 +2,7 @@ import React, { useState, useReducer, useEffect, useContext} from "react"
 
 import Card from "../UI/Card/Card" 
 import styles from "./Login.module.css" 
+import Input from "../UI/input/Input"
 import Button from "../UI/Button/Button" 
 import Authenticator from "../../context/Authenticator"
 
@@ -80,40 +81,26 @@ const Login = () => {
   return (
     <Card className={styles.login}>
       <form onSubmit={submitHandler}>
-        <div
-          className={`${styles.control} ${
-            formState.isMailValid === false ? styles.invalid : ""
-          }`}
-        >
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name='email'
-            required
-            autoComplete="username"
-            value={formState.mailValue}
-            onInput={emailChangeHandler}
-            onBlur={validateEmailHandler}
-          />
-        </div>
-        <div
-          className={`${styles.control} ${
-            formState.isPasswordValid === false ? styles.invalid : ""
-          }`}
-        >
-          <label htmlFor="password">Пароль</label>
-          <input
-            type="password"
-            id="password"
-            name='password'
-            required
-            autoComplete="current-password"
-            value={formState.passwordValue}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
-          />
-        </div>
+        <Input changeHandler={emailChangeHandler}
+          validateHandler={validateEmailHandler}
+          value={formState.mailValue}
+          isValid={formState.isMailValid}
+          type="email"
+          id="email"
+          name='email'
+          required
+          autoComplete="username"
+        />
+        <Input changeHandler={passwordChangeHandler}
+          validateHandler={validatePasswordHandler}
+          value={formState.passwordValue}
+          isValid={formState.isPasswordValid}
+          type="password"
+          id="password"
+          name='password'
+          required
+          autoComplete="password"
+        />
         <div className={styles.actions}>
           <Button type="submit" className={styles.btn} disabled={!formIsValid}>
             Вход
