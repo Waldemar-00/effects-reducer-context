@@ -1,10 +1,11 @@
-import React, { useState, useReducer, useEffect} from "react" 
+import React, { useState, useReducer, useEffect, useContext} from "react" 
 
 import Card from "../UI/Card/Card" 
 import styles from "./Login.module.css" 
 import Button from "../UI/Button/Button" 
+import Authenticator from "../../context/Authenticator"
 
-const Login = (props) => {
+const Login = () => {
   const [formIsValid, setFormIsValid] = useState(false) 
 
   const [formState, dispatchForm] = useReducer((prevState, action) => {
@@ -70,10 +71,10 @@ const Login = (props) => {
       type: 'BLUR_PASSWORD'
     }) 
   } 
-
+  const globalContext = useContext(Authenticator)
   const submitHandler = (event) => {
     event.preventDefault() 
-    props.onLogin(formState.mailValue, formState.passwordValue) 
+    globalContext.onLogin(formState.mailValue, formState.passwordValue) 
   } 
 
   return (

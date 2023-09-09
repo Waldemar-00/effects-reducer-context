@@ -3,7 +3,7 @@ import Authenticator from "../../context/Authenticator"
 
 import styles from "./Navigation.module.css" 
 
-const Navigation = ({ onLogout }) => {
+const Navigation = () => {
   return (
     <Authenticator.Consumer>
       {

@@ -1,8 +1,7 @@
-import React from "react" 
+import React, {useContext} from "react" 
+import Authenticator from "../../context/Authenticator"
 import Button from '../UI/Button/Button'
 import Card from "../UI/Card/Card" 
-import Authenticator from "../../context/Authenticator"
-import {useContext} from 'react'
 import styles from "./Home.module.css" 
 
 const Home = () => {
