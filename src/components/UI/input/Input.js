@@ -11,7 +11,6 @@ function Input(
     name,
     required,
     autoComplete,
-
   }) {
 
   return (

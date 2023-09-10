@@ -1,5 +1,4 @@
-import React, { useState, useReducer, useEffect, useContext} from "react" 
-
+import React, { useReducer, useContext} from "react" 
 import Card from "../UI/Card/Card" 
 import styles from "./Login.module.css" 
 import Input from "../UI/input/Input"
@@ -7,8 +6,6 @@ import Button from "../UI/Button/Button"
 import Authenticator from "../../context/Authenticator"
 
 const Login = () => {
-  const [formIsValid, setFormIsValid] = useState(false) 
-
   const [formState, dispatchForm] = useReducer((prevState, action) => {
     switch (action.type) {
       case 'USER_INPUT_MAIL':
@@ -40,10 +37,6 @@ const Login = () => {
       }
     }
   }, { mailValue: '', isMailValid: undefined, passwordValue: '', isPasswordValid: undefined })
-  
-  useEffect(() => {
-    setFormIsValid(formState.isMailValid && formState.isPasswordValid)
-  }, [formState.isMailValid, formState.isPasswordValid])
 
   const emailChangeHandler = (e) => {
     dispatchForm({
@@ -75,7 +68,10 @@ const Login = () => {
   const globalContext = useContext(Authenticator)
   const submitHandler = (event) => {
     event.preventDefault() 
-    globalContext.onLogin(formState.mailValue, formState.passwordValue) 
+    if (formState.isMailValid) {
+      globalContext.onLogin(formState.mailValue, formState.passwordValue)
+    }
+
   } 
 
   return (
@@ -102,7 +98,7 @@ const Login = () => {
           autoComplete="password"
         />
         <div className={styles.actions}>
-          <Button type="submit" className={styles.btn} disabled={!formIsValid}>
+          <Button type="submit" className={styles.btn}>
             Вход
           </Button>
         </div>
